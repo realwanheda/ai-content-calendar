@@ -14,7 +14,7 @@ const Login = () => {
 
       if (res.status === 200) {
         localStorage.setItem("userData", res.data.user._id);
-        navigate("/dashboard");
+        navigate("/dashboard", { replace: true });
       } else {
         throw new Error(res.message);
       }

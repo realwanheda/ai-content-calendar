@@ -4,7 +4,7 @@ import { createPost, updatePost, deletePost } from "../services/api";
 import { getAISuggestions } from "../services/fetchOpenAIResponse.js";
 import PropTypes from "prop-types";
 import { addPostToUser } from "../services/api";
-import backgroundImage from "../assets/bgimg.png";
+import backgroundImage from "../assets/bgimg2.png";
 import { useNavigate } from "react-router-dom";
 import Modal from "../components/Modal";
 
@@ -146,13 +146,19 @@ export default function PostsFormPage() {
     setShowModal(false);
   };
   const handlePlatformChange = (platform) => {
-    setPlatforms(
-      (prev) =>
-        prev.includes(platform)
-          ? prev.filter((p) => p !== platform) // Remove if already selected
-          : [...prev, platform] // Add if not selected
-    );
+    setPlatforms((prev) => {
+      let updatedPlatforms = [...prev]; // Copy the existing array
+
+      if (updatedPlatforms.includes(platform)) {
+        updatedPlatforms = updatedPlatforms.filter((p) => p !== platform); // Remove if already selected
+      } else {
+        updatedPlatforms.push(platform); // Add if not selected
+      }
+
+      return updatedPlatforms; // Update the state with the new array
+    });
   };
+
   const handleTitleChange = (e) => {
     if (e.target.value.length < 100) {
       setTitle(e.target.value);
