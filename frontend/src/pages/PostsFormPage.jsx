@@ -6,8 +6,11 @@ import PropTypes from "prop-types";
 import { addPostToUser } from "../services/api";
 import backgroundImage from "../assets/bgimg.png";
 import { useNavigate } from "react-router-dom";
+import Modal from "../components/Modal";
 
 export default function PostsFormPage() {
+  const [showModal, setShowModal] = useState(false); // ✅ Modal state
+
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const type = searchParams.get("type") || "add";
@@ -128,15 +131,19 @@ export default function PostsFormPage() {
     navigate(-1);
   };
 
-  // const handleAISuggestion = async () => {
-  //   const res = await getAISuggestions({ content });
-  //   setAiSuggestion(res.data.suggestion);
-  // };
   const handleAISuggestion = () => {
     getAISuggestions(content).then((res) => {
       console.log(res);
       setAiSuggestion(res);
+      setShowModal(true);
     });
+  };
+  const acceptAISuggestion = () => {
+    setContent(aiSuggestion);
+    setShowModal(false);
+  };
+  const rejectAISuggestion = () => {
+    setShowModal(false);
   };
   const handlePlatformChange = (platform) => {
     setPlatforms(
@@ -191,10 +198,15 @@ export default function PostsFormPage() {
         >
           Get AI Suggestions
         </button>
-        {aiSuggestion && <p className="italic text-gray-600">{aiSuggestion}</p>}
+        {/* ✅ Show Modal When AI Generates Suggestions */}
+        {showModal && (
+          <Modal
+            text={aiSuggestion}
+            onAccept={acceptAISuggestion}
+            onReject={rejectAISuggestion}
+          />
+        )}
 
-        {/* Date & Time Picker */}
-        <label className="block mt-4 font-medium">{aiSuggestion}</label>
         <label className="block mt-4 font-medium">Schedule Date & Time:</label>
         <input
           type="datetime-local"

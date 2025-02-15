@@ -8,19 +8,19 @@ export const API = axios.create({
   // timeout: 1000 * 10,
   withCredentials: true,
   headers: {
-    authorization: `Bearer ${openai}`,
+    authorization: `Bearer ${document.cookie.split(";")}`,
     Accept: "application/json",
     "Content-Type": "application/json",
   },
 });
-export const openaiapi = axios.create({
-  baseURL: baseURL,
-  // timeout: 1000 * 10,
-  withCredentials: true,
-  headers: {
-    authorization: `Bearer ${document.cookie.split(";")}`,
-  },
-});
+// export const openaiapi = axios.create({
+//   baseURL: baseURL,
+//   // timeout: 1000 * 10,
+//   withCredentials: true,
+//   headers: {
+//     authorization: `Bearer ${document.cookie.split(";")}`,
+//   },
+// });
 export const loginUser = (data) => API.post("/auth/login", data);
 export const registerUser = (data) => API.post("/auth/register", data);
 export const createPost = (postData) => API.post("/posts/create", postData);

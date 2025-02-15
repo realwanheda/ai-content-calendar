@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import CalenderPage from "./pages/CalenderPage";
+// import CalenderPage from "./pages/CalenderPage";
 import PostsFormPage from "./pages/PostsFormPage";
 // import openai from "openai";
 
@@ -16,7 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/Calenderpage" element={<CalenderPage />} />
+        {/* <Route path="/Calenderpage" element={<CalenderPage />} /> */}
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/edit-page" element={<PostsFormPage />} />
