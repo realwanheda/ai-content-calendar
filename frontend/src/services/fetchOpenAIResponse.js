@@ -14,7 +14,7 @@ export const getAISuggestions = async (inputText) => {
           {
             role: "user",
             content: `Here is a post: "${inputText}".
-                      Improve it, analyze its tone dont make it agressing make it more authentic, and add hashtags. and keep it under 40 words only give me the content nothing else`,
+                      Refine this to sound more natural and authentic—keep it under 40 words. Avoid an aggressive tone and make it more engaging. Add relevant hashtags for better reach. Keep it concise yet impactful.`,
           },
         ],
       },
