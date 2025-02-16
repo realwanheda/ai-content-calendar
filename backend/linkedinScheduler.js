@@ -2,15 +2,18 @@ import cron from "node-cron";
 import Post from "./models/Post.js";
 import postToLinkedIn from "./services/linkedinService.js";
 
+// Example Output: 2025-02-16T19:23:00.000+00:00
+
 const scheduleLinkedInPosts = () => {
   cron.schedule("* * * * *", async () => {
     console.log("🔄 Checking for scheduled LinkedIn posts...");
-    const now = new Date();
 
     try {
       const allPosts = await Post.find({});
       const postsToPost = allPosts.filter(
-        (post) => post.status === "pending" && post.scheduledDate <= now
+        (post) =>
+          post.status === "pending" &&
+          new Date(post.scheduledDate) <= new Date()
       );
 
       console.log("postsToPost", postsToPost);
@@ -37,8 +40,7 @@ const scheduleLinkedInPosts = () => {
         await post.save();
       }
     } catch (error) {
-      // }
-      console.error("❌ Error in scheduler:");
+      console.error("❌ Error in scheduler:", error);
     }
   });
 };
