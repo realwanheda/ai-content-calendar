@@ -9,7 +9,7 @@ const scheduleLinkedInPosts = () => {
 
     try {
       const postsToPost = await Post.find({
-        scheduledDate: { $lte: now },
+        // scheduledDate: { $lte: now },
         status: "pending",
       });
       console.log("postsToPost", postsToPost);
