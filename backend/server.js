@@ -12,7 +12,7 @@ dotenv.config();
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173", // Allow frontend domain
+    origin: process.env.API || "http://localhost:5173", // Allow frontend domain
     credentials: true, // Allow cookies
     methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
     allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
