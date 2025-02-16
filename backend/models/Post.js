@@ -7,7 +7,7 @@ const PostSchema = new mongoose.Schema(
     content: { type: String, required: true }, // Added content field
     scheduledDate: { type: Date, required: true, default: new Date() },
     platforms: { type: [String], required: true }, // Array of platforms (Facebook, X, Instagram)
-    status: { type: String, enum: ["pending", "posted"], default: "pending" },
+    status: { type: String, default: "pending" },
   },
   { timestamps: true } // This will add createdAt and updatedAt fields automatically
 );

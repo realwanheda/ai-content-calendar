@@ -12,6 +12,7 @@ const scheduleLinkedInPosts = () => {
         status: "pending",
         scheduledDate: { $lte: now },
       });
+
       console.log("postsToPost", postsToPost);
 
       for (const post of postsToPost) {
