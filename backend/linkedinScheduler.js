@@ -12,6 +12,8 @@ const scheduleLinkedInPosts = () => {
         scheduledDate: { $lte: now },
         status: "pending",
       });
+      console.log("postsToPost", postsToPost);
+
       for (const post of postsToPost) {
         console.log("✅ Posting to LinkedIn:", post.content);
         const message = post.content;

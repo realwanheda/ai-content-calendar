@@ -6,8 +6,6 @@ const postToLinkedIn = async (message) => {
   if (!process.env.ACCESS_TOKEN) {
     throw new Error("Access Token is missing! Please authenticate first.");
   }
-  if (message.length > 130) {
-  }
 
   const postData = {
     author: process.env.PERSON_URN,
