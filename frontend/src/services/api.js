@@ -43,7 +43,7 @@ export const getCurrentUser = () => API.post("auth/getCurrentUser");
 export const createPost = (postData) => API.post("/posts/create", postData);
 export const updatePost = (postData) => API.post("/posts/update", postData);
 export const deletePost = (data) => API.post("/posts/delete", data);
-export const fetchPostsOfUser = (data) => API.post("/posts/get-posts", data);
+export const fetchPostsOfUser = () => API.post("/posts/get-posts");
 export const addPostToUser = (data) =>
   API.post("/posts/add-post-to-user", data); // Banao
 export const getPosts = (token) =>

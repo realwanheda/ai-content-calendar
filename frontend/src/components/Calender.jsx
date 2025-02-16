@@ -16,13 +16,12 @@ const CalendarComponent = () => {
   });
 
   const handleFetchPostData = async () => {
-    const userID = localStorage.getItem("userData");
-    console.log("Start => ", userID);
-    const res = await fetchPostsOfUser({ userId: userID });
+    const res = await fetchPostsOfUser();
     console.log("fetchPostsOfUser = res.data => ", res.data);
     var tempArr = res.data.posts;
+    console.log(tempArr);
     var newArr = [];
-    for (var i = 0; i < tempArr.length; i++) {
+    for (var i = 0; i < tempArr?.length; i++) {
       const scheduledDate = new Date(tempArr[i].scheduledDate);
       const startOfDay = new Date(scheduledDate);
       const endOfDay = new Date(scheduledDate);

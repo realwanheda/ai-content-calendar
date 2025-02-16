@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { registerUser } from "../services/api";
-import { AuthContext } from "../context/AuthContext";
+// import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import backgroundImage from "../svgComponents/bgimg2.png";
 import TopBar from "../components/Topbar.jsx";
@@ -18,7 +18,7 @@ const Register = () => {
   }, []);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { setUser } = useContext(AuthContext);
+  // const { setUser } = useContext(AuthContext);
   const [errorOn, setErrorOn] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
@@ -35,8 +35,10 @@ const Register = () => {
     }
     try {
       const res = await registerUser({ email, password });
-      if (res.status === 200) {
-        setUser({ token: res.data.token });
+      console.log(res);
+
+      if (res.status === 201) {
+        // setUser({ token: res.data.token });
         navigate("/dashboard", { replace: true }); // Redirect to dashboard after successful registration
       } else {
         setErrorOn(true);
