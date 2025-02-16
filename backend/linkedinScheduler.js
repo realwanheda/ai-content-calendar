@@ -1,6 +1,6 @@
 import cron from "node-cron";
-import Post from "../models/Post.js";
-import postToLinkedIn from "../services/linkedinService.js";
+import Post from "./models/Post.js";
+import postToLinkedIn from "./services/linkedinService.js";
 
 const scheduleLinkedInPosts = () => {
   cron.schedule("* * * * *", async () => {
