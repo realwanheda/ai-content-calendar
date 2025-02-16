@@ -3,25 +3,22 @@ import User from "../models/User.js";
 
 export const createPost = async (req, res) => {
   try {
-    const { title, content, scheduledDate, platforms, userId } = req.body;
-    console.log("Creating post with this data = ", req.body);
-
+    const { title, content, scheduledDate, platforms } = req.body;
+    console.log("Creating post with this data = ", req.user);
+    const userId = req.user._id;
     // Validate required fields
     if (
       !title ||
       !content ||
       !scheduledDate ||
       !platforms ||
-      !userId ||
       platforms.length === 0
     ) {
       return res
         .status(400)
         .json({ error: "All fields are required, including platforms." });
     }
-    console.log(userId);
-    // console.log(title);
-    // console.log(content);
+
     const user = await User.findById(userId);
 
     if (!user) {
@@ -30,7 +27,7 @@ export const createPost = async (req, res) => {
         .json({ success: false, message: "User does not exist!" });
     }
     const post = await Post.create({
-      user: user._id, // Assuming authentication middleware adds `user` to req
+      userId,
       title,
       content,
       scheduledDate,
@@ -46,8 +43,7 @@ export const createPost = async (req, res) => {
 
 export const updatePostAPI = async (req, res) => {
   try {
-    const { title, content, scheduledDate, platforms, userId, postID } =
-      req.body;
+    const { title, content, scheduledDate, platforms, postID } = req.body;
     console.log("Updating Post with data = ", req.body);
 
     // Validate required fields
@@ -56,7 +52,6 @@ export const updatePostAPI = async (req, res) => {
       !content ||
       !scheduledDate ||
       !platforms ||
-      !userId ||
       platforms.length === 0 ||
       !postID
     ) {
@@ -64,7 +59,7 @@ export const updatePostAPI = async (req, res) => {
         .status(400)
         .json({ error: "All fields are required, including platforms." });
     }
-    const user = await User.findById(userId);
+    const user = await User.findById(req.user.id);
     const post = await Post.findById(postID);
 
     if (!user) {
@@ -77,6 +72,8 @@ export const updatePostAPI = async (req, res) => {
         .status(404)
         .json({ success: false, message: "Post does not exist!" });
     }
+
+    console.log("working toill here");
     const updatedPost = await Post.findByIdAndUpdate(
       postID, // The ID of the post to update
       {
@@ -96,7 +93,8 @@ export const updatePostAPI = async (req, res) => {
 };
 export const deletePostAPI = async (req, res) => {
   try {
-    const { userId, postID } = req.body;
+    const { postID } = req.body;
+    const { id: userId } = req.user;
     console.log("Deleting Post with data = ", req.body);
 
     // Validate required fields
@@ -147,17 +145,18 @@ export const deletePostAPI = async (req, res) => {
 
 export const addPostToUserAPI = async (req, res) => {
   try {
-    const { userId, postID } = req.body;
+    const { postID } = req.body;
+    const { id } = req.user;
     console.log("Adding post to user = ", req.body);
 
     // Validate required fields
-    if (!userId || !postID) {
+    if (!id || !postID) {
       return res
         .status(400)
         .json({ error: "All fields are required(user ID and post ID)." });
     }
 
-    const user = await User.findById(userId);
+    const user = await User.findById(id);
 
     if (!user) {
       return res
@@ -166,7 +165,7 @@ export const addPostToUserAPI = async (req, res) => {
     }
 
     const updatedUser = await User.findByIdAndUpdate(
-      userId, // The ID of the user to update
+      id, // The ID of the user to update
       {
         $push: { posts: postID }, // ✅ Add postID to the posts array
       },
@@ -182,16 +181,14 @@ export const addPostToUserAPI = async (req, res) => {
 
 export const getPostsOfUserAPI = async (req, res) => {
   try {
-    const { userId } = req.body;
-    console.log("Fetching posts for user = ", req.body);
-
+    const { id } = req.user;
     // Validate required fields
-    if (!userId) {
+    if (!id) {
       return res.status(400).json({ error: "User ID is required." });
     }
 
     // Find user
-    const user = await User.findById(userId);
+    const user = await User.findById(id);
     if (!user) {
       return res
         .status(404)
