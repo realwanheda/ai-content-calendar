@@ -8,10 +8,10 @@ const scheduleLinkedInPosts = () => {
     const now = new Date();
 
     try {
-      const postsToPost = await Post.find({
-        status: "pending",
-        scheduledDate: { $lte: now },
-      });
+      const allPosts = await Post.find({});
+      const postsToPost = allPosts.filter(
+        (post) => post.status === "pending" && post.scheduledDate <= now
+      );
 
       console.log("postsToPost", postsToPost);
 
